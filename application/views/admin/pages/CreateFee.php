@@ -100,7 +100,7 @@
                     <label for="inputEmail" class="col-sm-4 control-label"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "Month"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Month";}?></label>
 
                     <div class="col-sm-4">
-                      <select class="form-control select2" id="Month" style="width:100%;" onchange="setDescription(1)">
+                      <select class="form-control select2" id="Month" style="width:100%;" onchange="changeMonth(1)">
                         <option value=""><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "Select Month"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Select Month";}?></option>
                             <option value="January"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "January"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "January";}?></option>
                             <option value="February"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "February"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "February";}?></option>
@@ -119,6 +119,26 @@
                     </div>
                   </div>
 
+                <div class="form-group AnnualFeeMonth">
+                  <label for="inputEmail" class="col-sm-4 control-label"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "AnnaulFeeMonthAnnaulFeeMonth"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Annual Fee Month";}?></label>
+                  <div class="col-sm-4">
+                    <select class="form-control select2" id="AnnualFeeMonth" style="width:100%;">
+                      <option value=""><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "Select Month"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Select Month";}?></option>
+                      <option value="January"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "January"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "January";}?></option>
+                      <option value="February"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "February"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "February";}?></option>
+                      <option value="March"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "March"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "March";}?></option>
+                      <option value="April"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "April"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "April";}?></option>
+                      <option value="May"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "May"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "May";}?></option>
+                      <option value="June"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "June"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "June";}?></option>
+                      <option value="July"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "July"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "July";}?></option>
+                      <option value="August"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "August"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "August";}?></option>
+                      <option value="September"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "September"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "September";}?></option>
+                      <option value="October"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "October"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "October";}?></option>
+                      <option value="November"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "November"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "November";}?></option>
+                      <option value="December"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "December"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "December";}?></option>
+                    </select>
+                  </div>
+                </div>
                   <div class="form-group">
                     <label for="inputName" class="col-sm-4 control-label"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "Select Year"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Select Year";}?></label>
 
@@ -263,7 +283,7 @@
                     <label for="inputEmail" class="col-sm-4 control-label"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "Month"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Month";}?></label>
 
                     <div class="col-sm-4">
-                      <select class="form-control select2" id="Month2" style="width:100%;" onchange="setDescription(2)">
+                      <select class="form-control select2" id="Month2" style="width:100%;" onchange="changeMonth(2)">
                         <option value=""><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "Select Month"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Select Month";}?></option>
                             <option value="January"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "January"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "January";}?></option>
                             <option value="February"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "February"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "February";}?></option>
@@ -281,7 +301,26 @@
                       </select>
                     </div>
                   </div>
-
+                  <div class="form-group AnnualFeeMonth2">
+                    <label for="inputEmail" class="col-sm-4 control-label"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "AnnaulFeeMonthAnnaulFeeMonth"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Annual Fee Month";}?></label>
+                    <div class="col-sm-4">
+                      <select class="form-control select2" id="AnnualFeeMonth2" style="width:100%;">
+                        <option value=""><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "Select Month"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Select Month";}?></option>
+                        <option value="January"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "January"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "January";}?></option>
+                        <option value="February"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "February"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "February";}?></option>
+                        <option value="March"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "March"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "March";}?></option>
+                        <option value="April"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "April"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "April";}?></option>
+                        <option value="May"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "May"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "May";}?></option>
+                        <option value="June"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "June"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "June";}?></option>
+                        <option value="July"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "July"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "July";}?></option>
+                        <option value="August"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "August"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "August";}?></option>
+                        <option value="September"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "September"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "September";}?></option>
+                        <option value="October"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "October"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "October";}?></option>
+                        <option value="November"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "November"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "November";}?></option>
+                        <option value="December"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "December"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "December";}?></option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="form-group">
                     <label for="inputName" class="col-sm-4 control-label"><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "Select Year"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "Select Year";}?></label>
 
@@ -406,6 +445,8 @@
 
 
 <script type="text/javascript">
+  $('.AnnualFeeMonth').hide();
+  $('.AnnualFeeMonth2').hide();
     function readURL(input) {
 
   if (input.files && input.files[0]) {
@@ -549,7 +590,19 @@ function statuschange(val){
 //             document.getElementById('AfterDueDate2').value = deutotal;
 //     }
 // }
-
+function changeMonth(val)
+{
+  setDescription(val);
+  alert(document.getElementById('Month').value);
+  if(val == 1 && document.getElementById('Month').value === "Annual")
+  {
+    $('.AnnualFeeMonth').show();
+  }
+  if(val == 2 && document.getElementById('Month2').value === "Annual")
+  {
+    $('.AnnualFeeMonth2').show();
+  }
+}
 function setDescription(val){
     if(val=='1'){
 
@@ -699,6 +752,7 @@ function GetStudents(){
         var OutStanding = document.getElementById('OutStanding').value;
         var Month = document.getElementById('Month').value;
         var Year = document.getElementById('Year').value;
+        var AnnualFeeMonth = document.getElementById('AnnualFeeMonth').value;
         var Status = document.getElementById('Status').value;
         var Method = document.getElementById('Method').value;
         var AfterDueDate = document.getElementById('AfterDueDate').value;
@@ -716,6 +770,7 @@ function GetStudents(){
         form_data.append("Fee", document.getElementById('Fee').value);
         form_data.append("OutStanding", document.getElementById('OutStanding').value);
         form_data.append("Month", document.getElementById('Month').value);
+        form_data.append("AnnualFeeMonth", document.getElementById('AnnualFeeMonth').value);
         form_data.append("Year", document.getElementById('Year').value);
         form_data.append("Status", document.getElementById('Status').value);
         form_data.append("Method", document.getElementById('Method').value);
@@ -758,6 +813,7 @@ function GetStudents(){
         var checkboxes = $('.mainClass:checked').map(function() {return this.value;}).get().join(',');
         var Month = document.getElementById('Month2').value;
         var Year = document.getElementById('Year2').value;
+        var AnnualFeeMonth = document.getElementById('AnnualFeeMonth2').value;
         var Status = document.getElementById('Status2').value;
         var Method = document.getElementById('Method2').value;
         var Description = document.getElementById('Description2').value;
@@ -771,6 +827,7 @@ function GetStudents(){
         form_data.append("ClassId", document.getElementById('ClassId2').value);
         form_data.append("SectionId", document.getElementById('SectionId2').value);
         form_data.append("Month", document.getElementById('Month2').value);
+        form_data.append("AnnualFeeMonth", document.getElementById('AnnualFeeMonth2').value);
         form_data.append("Year", document.getElementById('Year2').value);
         form_data.append("Students", checkboxes);
         form_data.append("Status", document.getElementById('Status2').value);

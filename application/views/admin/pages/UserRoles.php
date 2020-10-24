@@ -205,6 +205,7 @@
 
 <?php include(APPPATH.'views/admin/footer.php'); ?>
 <script>
+
       function readURL(input) {
 
 if (input.files && input.files[0]) {

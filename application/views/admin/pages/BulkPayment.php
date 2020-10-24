@@ -139,7 +139,7 @@
                       <input type="hidden" name="Month" value="<?php if(!empty($Month)){ echo $Month; } ?>">
                       <input type="hidden" name="Year" value="<?php if(!empty($Year)){ echo $Year; } ?>">
                     <?php } } ?>
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="student-list" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th class="text-center">Ch</th>
@@ -165,8 +165,7 @@
                                 <label for=""></label>
                               </div>
                             </div></td>
-                  <?php 
-                  
+                  <?php
                     $DuesCalculated = $this->Admindb->SumRecord(['StudentId'=>$STULIS->StudentId,'FeeMonth<='=>$FilteredDate,'IsActive'=>true,'IsDeleted'=>false],'Dues','fee');
                     $TotalDuesCalculated += $DuesCalculated;
                   ?>
@@ -251,6 +250,18 @@
 
 <?php include(APPPATH.'views/admin/footer.php'); ?>
 <script>
+  $(document).ready(function () {
+    $('#student-list').DataTable({
+      "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+        $("td:first", nRow).html(iDisplayIndex + 1);
+        return nRow;
+      },
+      "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]]
+    });
+  });
+</script>
+<script>
+
       function readURL(input) {
 
 if (input.files && input.files[0]) {

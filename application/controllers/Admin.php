@@ -6723,338 +6723,348 @@ class Admin extends CI_controller /********** My Admin Class Inherit CI main con
     {/**********start of software setting function******** */
 
         if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is admin ****/
-
-        if ($param1 == 'GetStudent') {/*******if param is event****** */
-
-            if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is Superadmin ****/
-
-                if($this->input->post()){/*******if data exist******* */
-
-                   $ClassId = $this->input->post('ClassId');/********data field******* */
-
-                   $SectionId = $this->input->post('SectionId');/********data field******* */
-
-                   $Students = $this->Admindb->getdata(['ClassId'=>$ClassId,'SectionId'=>$SectionId,'IsActive'=>true,'IsDeleted'=>false],'students','GRNumber','ASC');/**********get data*********** */
-
-                   echo json_encode(['status'=>true,'message'=>'Data Founds','data'=>$Students]);/*******send jason data******* */
-
-                   exit;/******exit here******* */
-
-                }else{/********if data not exist********** */
-
-                    echo json_encode(['status'=>false,'message'=>'Select Class Required!!','data'=>null]);/*******send jason data******* */
-
+            if ($param1 == 'GetStudent') {/*******if param is event****** */
+    
+                if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is Superadmin ****/
+    
+                    if($this->input->post()){/*******if data exist******* */
+    
+                       $ClassId = $this->input->post('ClassId');/********data field******* */
+    
+                       $SectionId = $this->input->post('SectionId');/********data field******* */
+    
+                       $Students = $this->Admindb->getdata(['ClassId'=>$ClassId,'SectionId'=>$SectionId,'IsActive'=>true,'IsDeleted'=>false],'students','GRNumber','ASC');/**********get data*********** */
+    
+                       echo json_encode(['status'=>true,'message'=>'Data Founds','data'=>$Students]);/*******send jason data******* */
+    
+                       exit;/******exit here******* */
+    
+                    }else{/********if data not exist********** */
+    
+                        echo json_encode(['status'=>false,'message'=>'Select Class Required!!','data'=>null]);/*******send jason data******* */
+    
+                        exit;/******exit here******* */
+    
+                    }/**********end of condition********* */
+    
+                }else{/********else user is not Super admin*********** */
+    
+                    echo json_encode(['status'=>false,'message'=>'You dont have Authority!!','data'=>null]);/*******send jason data******* */
+    
                     exit;/******exit here******* */
-
-                }/**********end of condition********* */
-
-            }else{/********else user is not Super admin*********** */
-
-                echo json_encode(['status'=>false,'message'=>'You dont have Authority!!','data'=>null]);/*******send jason data******* */
-
-                exit;/******exit here******* */
-
-            }/********end of user check******** */
-
-        }elseif($param1 == 'GetStudentFee') {/*******if param is event****** */
-
-            if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is Superadmin ****/
-
-                if($this->input->post()){/*******if data exist******* */
-
-                   $StudentId = $this->input->post('StudentId');/********data field******* */
-
-                   $Students = $this->Admindb->CheckConditionData(['StudentId'=>$StudentId,'IsActive'=>true,'IsDeleted'=>false],'students');/**********get data*********** */
-
-                   $OutStandingAmount = $this->Admindb->getdata(['StudentId'=>$StudentId,'IsActive'=>true,'IsDeleted'=>false],'fee','Id','ASC');/**********get data*********** */
-                   
-                   $RemFee = 0;
-
-                    if(!empty($OutStandingAmount)){
-                        foreach($OutStandingAmount as $OUSTAM){
-                            $RemFee += $OUSTAM->Dues;
+    
+                }/********end of user check******** */
+    
+            }
+            elseif($param1 == 'GetStudentFee') {/*******if param is event****** */
+    
+                if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is Superadmin ****/
+    
+                    if($this->input->post()){/*******if data exist******* */
+    
+                       $StudentId = $this->input->post('StudentId');/********data field******* */
+    
+                       $Students = $this->Admindb->CheckConditionData(['StudentId'=>$StudentId,'IsActive'=>true,'IsDeleted'=>false],'students');/**********get data*********** */
+    
+                       $OutStandingAmount = $this->Admindb->getdata(['StudentId'=>$StudentId,'IsActive'=>true,'IsDeleted'=>false],'fee','Id','ASC');/**********get data*********** */
+                       
+                       $RemFee = 0;
+    
+                        if(!empty($OutStandingAmount)){
+                            foreach($OutStandingAmount as $OUSTAM){
+                                $RemFee += $OUSTAM->Dues;
+                            }
                         }
-                    }
-                   
-
-                   echo json_encode(['status'=>true,'message'=>'Data Founds','data'=>$Students,'Dues'=>$RemFee]);/*******send jason data******* */
-
-                   exit;/******exit here******* */
-
-                }else{/********if data not exist********** */
-
-                    echo json_encode(['status'=>false,'message'=>'Select Class Required!!','data'=>null]);/*******send jason data******* */
-
+                       
+    
+                       echo json_encode(['status'=>true,'message'=>'Data Founds','data'=>$Students,'Dues'=>$RemFee]);/*******send jason data******* */
+    
+                       exit;/******exit here******* */
+    
+                    }else{/********if data not exist********** */
+    
+                        echo json_encode(['status'=>false,'message'=>'Select Class Required!!','data'=>null]);/*******send jason data******* */
+    
+                        exit;/******exit here******* */
+    
+                    }/**********end of condition********* */
+    
+                }else{/********else user is not Super admin*********** */
+    
+                    echo json_encode(['status'=>false,'message'=>'You dont have Authority!!','data'=>null]);/*******send jason data******* */
+    
                     exit;/******exit here******* */
+    
+                }/********end of user check******** */
+    
+            }
+            elseif ($param1 == "Insert") {/******* If Request Is for Insert ************/
+    
+                /*********Configrations to Upload Files */
+    
+                if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is Superadmin ****/
 
-                }/**********end of condition********* */
+                    if($this->input->post()){/*******if data exist******* */
+                        $year = $this->input->post('Year');
+                        $month = $this->input->post('Month');
+                        $annualfee_month = $this->input->post('AnnualFeeMonth');
+                        if($month !== "Annual")
+                        {
+                            $feeMonth = DateTime::createFromFormat('F', $month)->format('m');
+                            $FeeMonth =  date('Y-m-d',strtotime($year.'-'.$feeMonth.'-29'));
+                        }else{
+                            $feeMonth = 0;
+                            $annualfee_Month = DateTime::createFromFormat('F', $annualfee_month)->format('m');
+                            $FeeMonth =  date('Y-m-d',strtotime($year.'-'.$annualfee_Month.'-29'));
+                        }
 
-            }else{/********else user is not Super admin*********** */
-
-                echo json_encode(['status'=>false,'message'=>'You dont have Authority!!','data'=>null]);/*******send jason data******* */
-
-                exit;/******exit here******* */
-
-            }/********end of user check******** */
-
-        }elseif ($param1 == "Insert") {/******* If Request Is for Insert ************/
-
-            /*********Configrations to Upload Files */
-
-            if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is Superadmin ****/
-
-                if($this->input->post()){/*******if data exist******* */
-                    $year = $this->input->post('Year');
-                    $month = $this->input->post('Month');
-                    if($month !== "Annual")
-                    {
-                        $feeMonth = DateTime::createFromFormat('F', $month)->format('m');
-                        $FeeMonth =  date('Y-m-d',strtotime($year.'-'.$feeMonth.'-29'));
-                    }else{
-                        $feeMonth = 0;
-                        $FeeMonth =  date('Y-m-d',strtotime((new \DateTime())->format('Y-m-d')));
-                    }
-
-                    $InsertFee = array( /**********fee array data ********* */
-
-                        'FeeId'=>rand(1,1000).''.rand(1,1000).''.rand(1,1000).''.rand(1,1000),/**********FeeId Data******** */
-
-                        'StudentId'=>$this->input->post('StudentId'),/********fee Short name*******/
-
-                        'ClassId'=>$this->input->post('ClassId'),/*******fee ****** */
-
-                        'SectionId'=>$this->input->post('SectionId'),/*******fee ****** */
-
-                        'Month'=>$this->input->post('Month'),/******fee ****** */
-                        //      Updated on 26-9-2020
-                        'FeeMonth'=> $FeeMonth,/*****fee date***** */
-
-                        'MonthNumber'=> $feeMonth,/******fee ****** */
-
-                        'Year'=> $year,/********fee ******* */
-
-                        'Fee'=>$this->input->post('Fee'),/********fee ******* */
-
-                        'OutStanding'=>$this->input->post('OutStanding'),/********fee ******* */
-
-                        'Status'=>$this->input->post('Status'),/********Status ******* */
-
-                        'Method'=>$this->input->post('Method'),/********Method ******* */
-
-                        'AfterDueDate'=>$this->input->post('AfterDueDate'),/********AfterDueDate ******* */
-
-                        'Dues'=>$this->input->post('Fee') - $this->input->post('AmountPaid'),/********AmountPaid ******* */
-
-                        'Description'=>$this->input->post('Description'),/********Description ******* */
-
-                        'PaidDate'=>date('Y-m-d',strtotime($this->input->post('PaidDate'))),/*****PaidDate date***** */
-
-                        'CreationDate'=>date('Y-m-d',strtotime($this->input->post('CreationDate'))),/*****fee date***** */
-
-                        'DueDate'=>date('Y-m-d',strtotime($this->input->post('DueDate'))),/*****fee date***** */
-
-                    );/********fee data array******** */
-
-                    $checkfee = $this->Admindb->CheckConditionData(['StudentId'=>$InsertFee['StudentId'],'ClassId'=>$InsertFee['ClassId'],'Month'=>$InsertFee['Month'],'Year'=>$InsertFee['Year'],'IsActive'=>true,'IsDeleted'=>false],'fee');
-
-                    if($checkfee){
-
-                        echo json_encode(['status'=>false,'message'=>'Voucher already exist','data'=>null]);/********send jason data****** */
-
-                            exit;/******exit here****** */
-
-                    }else{
-                        $InsertFee = $this->Admindb->InsertData($InsertFee,'fee'); /** Database Panel inserted **/
-
-                        if ($InsertFee) {/****** Check If user insertedd */
-
-                            echo json_encode(['status'=>true,'message'=>'Fee insert Successfully','data'=>null]);/******send jason data**** */
-
-                            exit;/*******exit here******/
-
-                        }else{ /************ If user Not Insreted *********/
-
-                            echo json_encode(['status'=>false,'message'=>'There Is issue while updating Please Try Again','data'=>null]);/********send jason data****** */
-
-                            exit;/******exit here****** */
-
-                        }/*********end of fee inserted condition******* */
-
-                    }
-
-                    
-
-                }else{/********if data not exist********** */
-
-                    echo json_encode(['status'=>false,'message'=>'Select Class Required!!','data'=>null]);/*******send jason data******* */
-
-                    exit;/******exit here******* */
-
-                }/**********end of condition********* */
-
-            }else{/********else user is not Super admin*********** */
-
-                echo json_encode(['status'=>false,'message'=>'You dont have Authority!!','data'=>null]);/*******send jason data******* */
-
-                exit;/******exit here******* */
-
-            }/********end of user check******** */
-
-
-
-        }elseif ($param1 == "InsertMass") {/******* If Request Is for Insert ************/
-            /*********Configrations to Upload Files */
-
-            if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is Superadmin ****/
-
-                if($this->input->post()){/*******if data exist******* */
-
-                    // var_dump($this->input->post('Students')); die();
-
-                    $Students = explode(',',$this->input->post('Students'));
-
-                        // $data = array();
-
-                        // foreach ($Students as $key) {
-
-                        //     $data[$key] = true;
-
-                        // }
-
-                    // $Students = $this->Admindb->getdata(['ClassId'=>$this->input->post('ClassId'),'IsActive'=>true,'IsDeleted'=>false],'students','Id','ASC');/**********get data*********** */
-
-                    if(!empty($Students)){
+                        $paymentStatus = $this->input->post('Status');
                         
-                        foreach($Students as $STU){
-                            $OutStandingAmount = $this->Admindb->getdata(['StudentId'=>$STU,'IsActive'=>true,'IsDeleted'=>false],'fee','Id','ASC');/**********get data*********** */
+                        $InsertFee = array( /**********fee array data ********* */
+    
+                            'FeeId'=>rand(1,1000).''.rand(1,1000).''.rand(1,1000).''.rand(1,1000),/**********FeeId Data******** */
+    
+                            'StudentId'=>$this->input->post('StudentId'),/********fee Short name*******/
+    
+                            'ClassId'=>$this->input->post('ClassId'),/*******fee ****** */
+    
+                            'SectionId'=>$this->input->post('SectionId'),/*******fee ****** */
+    
+                            'Month'=>$this->input->post('Month'),/******fee ****** */
+                            //      Updated on 26-9-2020
+                            'FeeMonth'=> $FeeMonth,/*****fee date***** */
+    
+                            'MonthNumber'=> $feeMonth,/******fee ****** */
+    
+                            'Year'=> $year,/********fee ******* */
+    
+                            'Fee'=>$this->input->post('Fee'),/********fee ******* */
+    
+                            'OutStanding'=>$this->input->post('OutStanding'),/********fee ******* */
+    
+                            'Status'=> $paymentStatus,/********Status ******* */
+    
+                            'Method'=>$this->input->post('Method'),/********Method ******* */
+    
+                            'AfterDueDate'=>$this->input->post('AfterDueDate'),/********AfterDueDate ******* */
+    
+                            'Dues'=>$this->input->post('Fee') - $this->input->post('AmountPaid'),/********AmountPaid ******* */
+    
+                            'Description'=>$this->input->post('Description'),/********Description ******* */
+    
+                            'PaidDate'=> $paymentStatus == 1 ? date('Y-m-d',strtotime($this->input->post('PaidDate'))) : NULL,/*****PaidDate date***** */
+    
+                            'CreationDate'=>date('Y-m-d',strtotime($this->input->post('CreationDate'))),/*****fee date***** */
+    
+                            'DueDate'=>date('Y-m-d',strtotime($this->input->post('DueDate'))),/*****fee date***** */
+    
+                        );/********fee data array******** */
 
-                            $StuLi = $this->Admindb->CheckConditionData(['StudentId'=>$STU,'IsActive'=>true,'IsDeleted'=>false],'students');
+                        $checkfee = $this->Admindb->CheckConditionData(['StudentId'=>$InsertFee['StudentId'],'ClassId'=>$InsertFee['ClassId'],'Month'=>$InsertFee['Month'],'Year'=>$InsertFee['Year'],'IsActive'=>true,'IsDeleted'=>false],'fee');
 
-                            
-                            $RemFeeMass = 0;
-
-                                if(!empty($OutStandingAmount)){
-                                    foreach($OutStandingAmount as $OUSTAM){
-                                        $RemFeeMass += $OUSTAM->Dues;
-                                    }
-                                }
-
-                            $CompanyList = $this->Admindb->CompanyList(); /**** Get company Data From Database ********/
-
-                            $PayAfter = (int)$StuLi->Fee;
-                            $DateDue = (int)$CompanyList->AfterDateDue;
-
-                            $AddPay = $PayAfter +  $DateDue;
-
-                            $year = $this->input->post('Year');
-                            $month = $this->input->post('Month');
-
-                            $feeMonth = $month;
-                            $FeeMonth = null;
-                            if($month !== "Annual")
-                            {
-                                $feeMonth = DateTime::createFromFormat('F', $month)->format('m');
-                                $FeeMonth =  date('Y-m-d',strtotime($year.'-'.$feeMonth.'-29'));
-                            }else{
-                                $FeeMonth =  date('Y-m-d',strtotime((new \DateTime())->format('Y-m-d')));
-                            }
-
-                            $InsertFee = array( /**********fee array data ********* */
-
-                                'FeeId'=>rand(1,1000).''.rand(1,1000).''.rand(1,1000).''.rand(1,1000),/**********FeeId Data******** */
-        
-                                'ClassId'=>$this->input->post('ClassId'),/*******fee ****** */
-
-                                'SectionId'=>$this->input->post('SectionId'),/*******fee ****** */
-
-                                'StudentId'=>$STU,/*******fee ****** */
-
-                                'Fee'=>$StuLi->Fee,/*******fee ****** */
-
-                                'OutStanding'=>$RemFeeMass,/*******fee ****** */
-
-                                'Dues'=>$StuLi->Fee,/*******Dues ****** */
-
-                                'AfterDueDate'=> $AddPay, /*******AfterDueDate ****** */
-
-                                'FeeMonth'=> $FeeMonth,/*****fee date***** */
-
-                                'Month'=> $month,/******fee ****** */
-                                //      Updated on 26-9-2020
-                                'MonthNumber'=>$feeMonth ,/******fee ****** */
-        
-                                'Year'=> $year,/********fee ******* */
-        
-                                'Status'=>$this->input->post('Status'),/********Status ******* */
-        
-                                'Method'=>$this->input->post('Method'),/********Method ******* */
-        
-                                'Description'=>$this->input->post('Description'),/********Description ******* */
-        
-                                'PaidDate'=>date('Y-m-d',strtotime($this->input->post('PaidDate'))),/*****PaidDate date***** */
-        
-                                'CreationDate'=>date('Y-m-d',strtotime($this->input->post('CreationDate'))),/*****fee date***** */
-        
-                                'DueDate'=>date('Y-m-d',strtotime($this->input->post('DueDate'))),/*****fee date***** */
-        
-                            );/********fee data array******** */
-
-
-
+                        if($month == "Annual"){
                             $checkfee = $this->Admindb->CheckConditionData(['StudentId'=>$InsertFee['StudentId'],'ClassId'=>$InsertFee['ClassId'],'Month'=>$InsertFee['Month'],'Year'=>$InsertFee['Year'],'IsActive'=>true,'IsDeleted'=>false],'fee');
-
-                            if(empty($checkfee)){
-
-                                $Inserted = $this->Admindb->InsertData($InsertFee,'fee'); /** Database Panel inserted **/
-
-                            }else{
-                                $Inserted = null;
-                            }
-
                         }
-
-
-                        if ($Inserted) {/****** Check If user insertedd */
-
-                            echo json_encode(['status'=>true,'message'=>'Fee insert Successfully','data'=>null]);/******send jason data**** */
-
-                        }else{ /************ If user Not Insreted *********/
-
-                            echo json_encode(['status'=>false,'message'=>'There Is issue while updating Please Try Again','data'=>null]);/********send jason data****** */
-
-                        }/*********end of fee inserted condition******* */
-
-                    }else{
-
-                        echo json_encode(['status'=>false,'message'=>'No students found in this class!!','data'=>null]);/*******send jason data******* */
-
-                        exit;/******exit here******* */ 
-
-                    }
-
-                    
-
-                    
-
-                }else{/********if data not exist********** */
-
-                    echo json_encode(['status'=>false,'message'=>'Select Class Required!!','data'=>null]);/*******send jason data******* */
-
+                        if($checkfee){
+    
+                            echo json_encode(['status'=>false,'message'=>'Voucher already exist','data'=>null]);/********send jason data****** */
+    
+                                exit;/******exit here****** */
+    
+                        }else{
+                            $InsertFee = $this->Admindb->InsertData($InsertFee,'fee'); /** Database Panel inserted **/
+    
+                            if ($InsertFee) {/****** Check If user insertedd */
+    
+                                echo json_encode(['status'=>true,'message'=>'Fee insert Successfully','data'=>null]);/******send jason data**** */
+    
+                                exit;/*******exit here******/
+    
+                            }else{ /************ If user Not Insreted *********/
+    
+                                echo json_encode(['status'=>false,'message'=>'There Is issue while updating Please Try Again','data'=>null]);/********send jason data****** */
+    
+                                exit;/******exit here****** */
+    
+                            }/*********end of fee inserted condition******* */
+    
+                        }
+    
+                        
+    
+                    }else{/********if data not exist********** */
+    
+                        echo json_encode(['status'=>false,'message'=>'Select Class Required!!','data'=>null]);/*******send jason data******* */
+    
+                        exit;/******exit here******* */
+    
+                    }/**********end of condition********* */
+    
+                }else{/********else user is not Super admin*********** */
+    
+                    echo json_encode(['status'=>false,'message'=>'You dont have Authority!!','data'=>null]);/*******send jason data******* */
+    
                     exit;/******exit here******* */
-
-                }/**********end of condition********* */
-
-            }else{/********else user is not Super admin*********** */
-
-                echo json_encode(['status'=>false,'message'=>'You dont have Authority!!','data'=>null]);/*******send jason data******* */
-
-                exit;/******exit here******* */
-
-            }/********end of user check******** */
-
-
-
-        }else{ /**********else no language given********** */
+    
+                }/********end of user check******** */
+    
+    
+    
+            }
+            elseif ($param1 == "InsertMass") {/******* If Request Is for Insert ************/
+                /*********Configrations to Upload Files */
+    
+                if($this->session->userdata('UserSession')->StaffRole == 'SuperAdmin'){ /****** check if user is Superadmin ****/
+    
+                    if($this->input->post()){/*******if data exist******* */
+    
+                        // var_dump($this->input->post('Students')); die();
+    
+                        $Students = explode(',',$this->input->post('Students'));
+    
+                            // $data = array();
+    
+                            // foreach ($Students as $key) {
+    
+                            //     $data[$key] = true;
+    
+                            // }
+    
+                        // $Students = $this->Admindb->getdata(['ClassId'=>$this->input->post('ClassId'),'IsActive'=>true,'IsDeleted'=>false],'students','Id','ASC');/**********get data*********** */
+    
+                        if(!empty($Students)){
+                            
+                            foreach($Students as $STU){
+                                $OutStandingAmount = $this->Admindb->getdata(['StudentId'=>$STU,'IsActive'=>true,'IsDeleted'=>false],'fee','Id','ASC');/**********get data*********** */
+    
+                                $StuLi = $this->Admindb->CheckConditionData(['StudentId'=>$STU,'IsActive'=>true,'IsDeleted'=>false],'students');
+    
+                                
+                                $RemFeeMass = 0;
+    
+                                    if(!empty($OutStandingAmount)){
+                                        foreach($OutStandingAmount as $OUSTAM){
+                                            $RemFeeMass += $OUSTAM->Dues;
+                                        }
+                                    }
+    
+                                $CompanyList = $this->Admindb->CompanyList(); /**** Get company Data From Database ********/
+    
+                                $PayAfter = (int)$StuLi->Fee;
+                                $DateDue = (int)$CompanyList->AfterDateDue;
+    
+                                $AddPay = $PayAfter +  $DateDue;
+    
+                                $year = $this->input->post('Year');
+                                $month = $this->input->post('Month');
+    
+                                $feeMonth = $month;
+                                $FeeMonth = null;
+                                if($month !== "Annual")
+                                {
+                                    $feeMonth = DateTime::createFromFormat('F', $month)->format('m');
+                                    $FeeMonth =  date('Y-m-d',strtotime($year.'-'.$feeMonth.'-29'));
+                                }else{
+                                    $FeeMonth =  date('Y-m-d',strtotime((new \DateTime())->format('Y-m-d')));
+                                }
+                                $paymentStatus = $this->input->post('Status');
+                                $InsertFee = array( /**********fee array data ********* */
+    
+                                    'FeeId'=>rand(1,1000).''.rand(1,1000).''.rand(1,1000).''.rand(1,1000),/**********FeeId Data******** */
+            
+                                    'ClassId'=>$this->input->post('ClassId'),/*******fee ****** */
+    
+                                    'SectionId'=>$this->input->post('SectionId'),/*******fee ****** */
+    
+                                    'StudentId'=>$STU,/*******fee ****** */
+    
+                                    'Fee'=>$StuLi->Fee,/*******fee ****** */
+    
+                                    'OutStanding'=>$RemFeeMass,/*******fee ****** */
+    
+                                    'Dues'=>$StuLi->Fee,/*******Dues ****** */
+    
+                                    'AfterDueDate'=> $AddPay, /*******AfterDueDate ****** */
+    
+                                    'FeeMonth'=> $FeeMonth,/*****fee date***** */
+    
+                                    'Month'=> $month,/******fee ****** */
+                                    //      Updated on 26-9-2020
+                                    'MonthNumber'=>$feeMonth ,/******fee ****** */
+            
+                                    'Year'=> $year,/********fee ******* */
+            
+                                    'Status'=> $paymentStatus,/********Status ******* */
+            
+                                    'Method'=>$this->input->post('Method'),/********Method ******* */
+            
+                                    'Description'=>$this->input->post('Description'),/********Description ******* */
+            
+                                    'PaidDate'=>$paymentStatus == 1 ? date('Y-m-d',strtotime($this->input->post('PaidDate'))) : NULL,/*****PaidDate date***** */
+            
+                                    'CreationDate'=>date('Y-m-d',strtotime($this->input->post('CreationDate'))),/*****fee date***** */
+            
+                                    'DueDate'=>date('Y-m-d',strtotime($this->input->post('DueDate'))),/*****fee date***** */
+            
+                                );/********fee data array******** */
+    
+    
+    
+                                $checkfee = $this->Admindb->CheckConditionData(['StudentId'=>$InsertFee['StudentId'],'ClassId'=>$InsertFee['ClassId'],'Month'=>$InsertFee['Month'],'Year'=>$InsertFee['Year'],'IsActive'=>true,'IsDeleted'=>false],'fee');
+    
+                                if(empty($checkfee)){
+    
+                                    $Inserted = $this->Admindb->InsertData($InsertFee,'fee'); /** Database Panel inserted **/
+    
+                                }else{
+                                    $Inserted = null;
+                                }
+    
+                            }
+    
+    
+                            if ($Inserted) {/****** Check If user insertedd */
+    
+                                echo json_encode(['status'=>true,'message'=>'Fee insert Successfully','data'=>null]);/******send jason data**** */
+    
+                            }else{ /************ If user Not Insreted *********/
+    
+                                echo json_encode(['status'=>false,'message'=>'There Is issue while updating Please Try Again','data'=>null]);/********send jason data****** */
+    
+                            }/*********end of fee inserted condition******* */
+    
+                        }else{
+    
+                            echo json_encode(['status'=>false,'message'=>'No students found in this class!!','data'=>null]);/*******send jason data******* */
+    
+                            exit;/******exit here******* */ 
+    
+                        }
+    
+                        
+    
+                        
+    
+                    }else{/********if data not exist********** */
+    
+                        echo json_encode(['status'=>false,'message'=>'Select Class Required!!','data'=>null]);/*******send jason data******* */
+    
+                        exit;/******exit here******* */
+    
+                    }/**********end of condition********* */
+    
+                }else{/********else user is not Super admin*********** */
+    
+                    echo json_encode(['status'=>false,'message'=>'You dont have Authority!!','data'=>null]);/*******send jason data******* */
+    
+                    exit;/******exit here******* */
+    
+                }/********end of user check******** */
+    
+    
+    
+            }
+            else{ /**********else no language given********** */
 
             $language = $this->session->userdata('language');/**********language session********** */
 
@@ -7084,13 +7094,10 @@ class Admin extends CI_controller /********** My Admin Class Inherit CI main con
             $this->load->view('admin/pages/CreateFee',$data);/********hit CreateFee view******** */
 
         }/*********end of condition********* */
-
-        }else{/*******else user is not admin********* */
-
+        }
+        else{/*******else user is not admin********* */
             return redirect('admin');/*********return redirect to admin********* */
-
         }/*******end of condition******** */
-
     }/**********end of function********* */
 
 
@@ -8433,11 +8440,7 @@ class Admin extends CI_controller /********** My Admin Class Inherit CI main con
 
                     $FeeId = $this->input->post('FeeId');
 
-
-
                     $GetFeeData = $this->Admindb->TwoJoinrow(['fee.FeeId'=>$FeeId,'fee.IsActive'=>true,'fee.IsDeleted'=>false],'fee','students','fee.StudentId = students.StudentId','class','fee.ClassId = class.ClassId','Id','ASC','fee.Id,fee.FeeId,fee.StudentId,fee.Month,fee.Year,fee.Fee,fee.Status,fee.Method,fee.Description,fee.CreationDate,fee.DueDate,fee.IsActive,students.StudentName,students.StudentGR,students.FatherName,class.ClassName,fee.Dues,fee.AmountPaid');
-
-
 
                     if ($GetFeeData) {/****** Check If user insertedd */
 
@@ -8664,7 +8667,7 @@ class Admin extends CI_controller /********** My Admin Class Inherit CI main con
                 $Month = $this->input->post('Month');
                 $Year = $this->input->post('Year');
 
-                $Day = 30;
+                $Day = 29;
                 $Month = $this->input->post('Month');
                 $Year = $this->input->post('Year');
                 $dated = $Day.'/'.$Month.'/'.$Year;
@@ -8674,13 +8677,13 @@ class Admin extends CI_controller /********** My Admin Class Inherit CI main con
                 $MonthNumber = 0;
                 if($Month == "January"){ $MonthNumber = 1; }elseif($Month == "February"){ $MonthNumber = 2; }elseif($Month == "March"){ $MonthNumber = 3; }elseif($Month == "April"){ $MonthNumber = 4; }elseif($Month == "May"){ $MonthNumber = 5; }elseif($Month == "June"){ $MonthNumber = 6; }elseif($Month == "July"){ $MonthNumber = 7; }elseif($Month == "August"){ $MonthNumber = 8; }elseif($Month == "September"){ $MonthNumber = 9; }elseif($Month == "October"){ $MonthNumber = 10; }elseif($Month == "November"){ $MonthNumber = 11; }elseif($Month == "December"){ $MonthNumber = 12; }
 
-                $GetFeeData = $this->Admindb->TwoJoinGroupBy(['students.IsActive'=>true,'FeeMonth<='=>$date,'fee.IsActive'=>true,'fee.IsDeleted'=>false],'fee','students','fee.StudentId = students.StudentId','class','fee.ClassId = class.ClassId','students.GRNumber','DESC','fee.Id,fee.FeeId,fee.StudentId,fee.Month,fee.Year,fee.Fee,fee.Status,fee.Method,fee.Description,fee.CreationDate,fee.DueDate,fee.IsActive,students.StudentName,students.StudentGR,students.FatherName,class.ClassName,fee.Dues,fee.AmountPaid,fee.PaidDate,fee.BankRef,fee.UpdatedBy,students.GRNumber,fee.MonthNumber','fee.StudentId');
+                $GetFeeData = $this->Admindb->TwoJoinGroupBy(['students.IsActive'=>true,'FeeMonth'=>$date,'fee.IsActive'=>true,'fee.IsDeleted'=>false],'fee','students','fee.StudentId = students.StudentId','class','fee.ClassId = class.ClassId','students.GRNumber','DESC','fee.Id,fee.FeeId,fee.StudentId,fee.Month,fee.Year,fee.Fee,fee.Status,fee.Method,fee.Description,fee.CreationDate,fee.DueDate,fee.IsActive,students.StudentName,students.StudentGR,students.FatherName,class.ClassName,fee.Dues,fee.AmountPaid,fee.PaidDate,fee.BankRef,fee.UpdatedBy,students.GRNumber,fee.MonthNumber','fee.StudentId');
 
 
 //                $data['PaidAmount'] = $this->Admindb->SumRecord(['MonthNumber <='=>$MonthNumber,'Year'=>$Year,'IsActive'=>true,'IsDeleted'=>false],'AmountPaid','fee');
 //                $data['TotalDues'] = $this->Admindb->SumRecord(['MonthNumber <='=>$MonthNumber,'Year'=>$Year,'IsActive'=>true,'IsDeleted'=>false],'Dues','fee');
-                $data['PaidAmount'] = $this->Admindb->SumRecord(['FeeMonth<='=>$date,'IsActive'=>true,'IsDeleted'=>false],'AmountPaid','fee');
-                $data['TotalDues'] = $this->Admindb->SumRecord(['FeeMonth<='=>$date,'IsActive'=>true,'IsDeleted'=>false],'Dues','fee');
+                $data['PaidAmount'] = $this->Admindb->SumRecord(['FeeMonth'=>$date,'IsActive'=>true,'IsDeleted'=>false],'AmountPaid','fee');
+                $data['TotalDues'] = $this->Admindb->SumRecord(['FeeMonth'=>$date,'IsActive'=>true,'IsDeleted'=>false],'Dues','fee');
                 
                 $language = $this->session->userdata('language');/**********language session********** */
     
@@ -9869,7 +9872,7 @@ class Admin extends CI_controller /********** My Admin Class Inherit CI main con
                     $dated = $Day.'/'.$Month.'/'.$Year;
                     $date_converted = str_replace('/', '-', $dated);
                     $date = date("Y-m-d", strtotime($date_converted));
-                    
+
                     $MonthNumber = 0;
                     if($Month == "January"){ $MonthNumber = 1; }elseif($Month == "February"){ $MonthNumber = 2; }elseif($Month == "March"){ $MonthNumber = 3; }elseif($Month == "April"){ $MonthNumber = 4; }elseif($Month == "May"){ $MonthNumber = 5; }elseif($Month == "June"){ $MonthNumber = 6; }elseif($Month == "July"){ $MonthNumber = 7; }elseif($Month == "August"){ $MonthNumber = 8; }elseif($Month == "September"){ $MonthNumber = 9; }elseif($Month == "October"){ $MonthNumber = 10; }elseif($Month == "November"){ $MonthNumber = 11; }elseif($Month == "December"){ $MonthNumber = 12; }elseif($Month == "Annual"){ $MonthNumber = 0; }
 //                    $where,$tableone,$tabletwo,$joinwhere,$tablethree,$joinwherethree,$field,$value,$select,$distinct
@@ -9892,7 +9895,12 @@ class Admin extends CI_controller /********** My Admin Class Inherit CI main con
                             $studentIds[$key] = $test->StudentId;
                         }
                     }
-                    $data['FilteredDate'] = $date;
+                    if($Month == "Annual")
+                    {
+                        $data['FilteredDate'] = date('Y-m-d',strtotime((new \DateTime())->format('Y-m-d')));
+                    }else{
+                        $data['FilteredDate'] = $date;
+                    }
                     $data['PaidAmount'] = $this->Admindb->SumRecord(['StudentId<>'=>"",'MonthNumber'=>$MonthNumber,'Year'=>$Year,'IsActive'=>true,'IsDeleted'=>false],'AmountPaid','fee');
                     $data['TotalDues'] = $this->Admindb->SumRecord(['StudentId<>'=>"",'MonthNumber'=>$MonthNumber,'Year'=>$Year,'IsActive'=>true,'IsDeleted'=>false],'Dues','fee');
 //                    $data['PaidAmount'] = $this->Admindb->BulkRecord(['FeeMonth'=>$date,'IsActive'=>true,'IsDeleted'=>false],'AmountPaid','fee','StudentId',$studentIds);

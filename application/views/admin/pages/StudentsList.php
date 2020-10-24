@@ -3,6 +3,19 @@
 <html lang="en">
 
 <?php include(APPPATH.'views/admin/head.php'); ?>
+<style>
+  .tableWidth{
+    width: 33.25%;
+  }
+</style>
+<style type="text/css" media="print">
+  @page {
+    size: A4 portrait;
+    max-height: 100%;
+    max-width: 100%
+  }
+</style>
+
 </head>
 
 <body>
@@ -65,7 +78,7 @@
         <div class="box-body" id="studentslisttable">
           <div class="row">
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="student-table" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th class="text-center">#</th>
@@ -160,6 +173,15 @@
 
 <?php include(APPPATH.'views/admin/footer.php'); ?>
 <script>
+  $(document).ready(function() {
+    $('#student-table').DataTable({
+      "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+        $("td:first", nRow).html(iDisplayIndex +1);
+        return nRow;
+      },
+      "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]]
+    });
+  });
       function readURL(input) {
 
 if (input.files && input.files[0]) {
@@ -348,10 +370,10 @@ function ViewStudent(Id) {
                     "</div>"+
                       "<div class='container mt-3' style='width:88%;'>"+
                       "<div class='row align-items-center pb-3'>"+
-                      " <div class='col-md-3 mb-3'>"+
+                      " <div class='col-md-3 col-sm-3 col-xs-3 mb-3'>"+
                       "   <img width='150' src='<?php if(!empty($CompanyList->CompanyLogo)){ echo base_url('assets/dist/images/'.$CompanyList->CompanyLogo); }else{ echo base_url('assets/dist/images/School.jpg'); }  ?>' alt='RZB School' class='img-fluid'>"+
                       " </div>"+
-                      " <div class='col-md-6'>"+
+                      " <div class='col-md-6 col-sm-6  col-xs-6'>"+
                       "   <div class='row align-items-end'>"+
                       "     <div class='col border-bottom'>"+
                       "       <h1 class='text-center fw700'><?php if(!empty($CompanyList->CompanyName)){ $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "'.$CompanyList->CompanyName.'"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo $CompanyList->CompanyName;} }else{ echo "RZB SMS"; } ?></h1>"+
@@ -359,7 +381,7 @@ function ViewStudent(Id) {
                       "   </div>"+
                          
                       "  </div>"+
-                      " <div class='col-md-3' style='margin-top:2%;'>"+
+                      " <div class='col-md-3 col-sm-3  col-xs-3' style='margin-top:2%;'>"+
                       "   <p>Doc. No: ACA W100<br> Issue No: 01<br>GR No # : "+editdetails.data['StudentGR']+"</p>"+
                       " </div>"+
                       "</div>"+
@@ -377,35 +399,35 @@ function ViewStudent(Id) {
                       "</div>"+
                       "<table class='table table-bordered table-sm mb-5'>"+
                       " <tr>"+
-                      "   <td class='bg-light' colspan='3'>Student Name</td>"+
-                      " </tr>"+
-                      " <tr>"+
+                      "   <td class='bg-light tableWidth'>Student Name</td>"+
                       "   <td class='py-3'>"+editdetails.data['StudentName']+"</td>"+
                       " </tr>"+
                       " <tr>"+
-                      "   <td class='bg-light'>DOB (Day, Month, Year)</td>"+
-                      "   <td class='bg-light'>Age at Entry</td>"+
-                      "   <td class='bg-light'>Gender</td>   "+ 
-                      " </tr>"+
-                      " <tr>"+
+                      "   <td class='bg-light tableWidth'>DOB (Day, Month, Year)</td>"+
                       "   <td class='py-3'>"+editdetails.data['BirthDate']+"</td>"+
+                      " </tr>"+
+                      " <tr>"+
+                      "   <td class='bg-light tableWidth'>Age at Entry</td>"+
                       "   <td class='py-3'>"+age+"</td>"+
-                      "   <td class='py-3'>"+editdetails.data['Gender']+"</td>"+
                       " </tr>"+
                       " <tr>"+
-                      "   <td class='bg-light' colspan='2'>Appling for Grade</td>"+
-                      "   <td class='bg-light'>Academic Session</td>   "+ 
-                      " </tr>"+
+                              "   <td class='bg-light tableWidth'>Gender</td>"+
+                              "   <td class='py-3'>"+editdetails.data['Gender']+"</td>"+
+                              " </tr>"+
+                              " <tr>"+
+                              "   <td class='bg-light tableWidth'>Appling for Grade</td>"+
+                              "   <td class='py-3'>"+editdetails.data['ClassName']+"</td>"+
+                              " </tr>"+
                       " <tr>"+
-                      " <td class='py-3' colspan='2'>"+editdetails.data['ClassName']+"</td>"+
+                      "   <td class='bg-light tableWidth'>Academic Session</td>   "+
                       "   <td class='py-3'>"+year+"</td>"+
                       " </tr>"+
+                              " <tr>"+
+                              "   <td class='bg-light tableWidth'>Religion</td>"+
+                              "   <td class='py-3'>"+editdetails.data['Religion']+"</td>"+
+                              " </tr>"+
                       " <tr>"+
-                      "   <td class='bg-light' colspan='2'>Religion</td>"+
-                      "   <td class='bg-light' colspan='2'>Nationality</td>"+
-                      " </tr>"+
-                      " <tr>"+
-                      "   <td class='py-3' colspan='2'>"+editdetails.data['Religion']+"</td>"+
+                      "   <td class='bg-light tableWidth'>Nationality</td>"+
                       "   <td class='py-3' colspan='2'>"+editdetails.data['Nationality']+"</td>"+
                       " </tr>"+
                       // " <tr>"+
@@ -421,12 +443,9 @@ function ViewStudent(Id) {
                       // "   <td class='py-3' colspan='3'>&nbsp</td>"+
                       // " </tr>"+
                       " <tr>"+
-                      "   <td class='bg-light' colspan='3'>Does your child have any medical or psychological conditions? Please provide details / relevant documentation.</td>"+
+                      "   <td class='bg-light tableWidth'>Does your child have any medical or psychological conditions? Please provide details / relevant documentation.</td>"+
+                      "   <td class='py-3' colspan='2'>"+editdetails.data['childMedical']+"</td>"+
                       " </tr>"+
-                      " <tr>"+
-                      "   <td class='py-3' colspan='3'>"+editdetails.data['childMedical']+"</td>"+
-                      " </tr>"+
-                        
                       "</table>"+
                       
                       "<div class='row'>"+

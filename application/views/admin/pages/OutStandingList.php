@@ -129,7 +129,7 @@
               </div>
               
 
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="outstanding-list" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th class="text-center">#</th>
@@ -224,6 +224,17 @@
 
 <?php include(APPPATH.'views/admin/footer.php'); ?>
 <script>
+
+  $(document).ready(function() {
+    $('#outstanding-list').DataTable({
+      "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+        $("td:first", nRow).html(iDisplayIndex +1);
+        return nRow;
+      },
+      "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]]
+    });
+  });
+
       function readURL(input) {
 
 if (input.files && input.files[0]) {

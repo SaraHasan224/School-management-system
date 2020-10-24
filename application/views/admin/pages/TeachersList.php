@@ -37,7 +37,7 @@
         <div class="box-body" id="teacherslisttable">
           <div class="row">
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="teacher-list" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th><?php $LangList = $this->db->query('SELECT English,Urdu FROM language WHERE English = "ID"')->row(); if(!empty($LangList)){ echo $LangList->$Word; }else{echo "ID";}?></th>
@@ -182,6 +182,17 @@
 
 <?php include(APPPATH.'views/admin/footer.php'); ?>
 <script>
+
+  $(document).ready(function() {
+    $('#teacher-list').DataTable({
+      "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+        $("td:first", nRow).html(iDisplayIndex +1);
+        return nRow;
+      },
+      "lengthMenu": [[50, 100, 250, -1], [50, 100, 250, "All"]]
+    });
+  });
+
       function readURL(input) {
 
 if (input.files && input.files[0]) {
